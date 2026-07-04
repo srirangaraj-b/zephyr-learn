@@ -21,6 +21,7 @@ int main(void)
         gpio_pin_toggle_dt(&ledb);
 
         gpio_pin_toggle(gpiog, 10); //Directly call the toggling from the GPIO Pin accessing
+        //Since we call it using the direct pin accessing we cant use it for differnt boards which dont have the pin PG10
 
         k_msleep(500);
     }
