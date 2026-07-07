@@ -2,6 +2,7 @@
     aliases {
         leda = &led_a;
         ledb = &led_b;
+        ledc = &led_c;
     };
 
     output_pins {
@@ -13,8 +14,11 @@
         };
 
         led_b: op_1 {
-            gpios = <&gpiog 8 GPIO_ACTIVE_HIGH>;
+            gpios = <&gpiog 8 GPIO_ACTIVE_LOW>;
            
-        };        
+        };
+        led_c: op_2 {
+            gpios = <&gpiog 10 GPIO_ACTIVE_LOW>;
+        };
     };
 };
