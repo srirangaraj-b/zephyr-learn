@@ -1,0 +1,18 @@
+/*
+ * Devicetree overlay for nucleo_n657x0_q
+ * Exposes PH9 (SCL) and PE12 (SDA) as open-drain, pulled-up GPIOs
+ * under the generic "zephyr,user" node so they can be grabbed in
+ * app code without a custom binding.
+ *
+ * gpios[0] = SCL = PH9
+ * gpios[1] = SDA = PE12
+ */
+
+#include <zephyr/dt-bindings/gpio/gpio.h>
+
+/ {
+	zephyr,user {
+		gpios = <&gpioh 9  (GPIO_OPEN_DRAIN | GPIO_PULL_UP)>,
+			<&gpioe 12 (GPIO_OPEN_DRAIN | GPIO_PULL_UP)>;
+	};
+};
