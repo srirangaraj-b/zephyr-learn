@@ -3,4 +3,4 @@
     pinctrl-names = "default";
     current-speed = <115200>;
     status = "okay";
-};
+};      

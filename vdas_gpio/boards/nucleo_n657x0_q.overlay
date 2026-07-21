@@ -1,0 +1,57 @@
+/{
+aliases{
+
+    op1  = &pin_1;
+    op2  = &pin_2;
+    op3  = &pin_3;
+    op4  = &pin_4;
+    op5  = &pin_5;
+    op6  = &pin_6;
+    op7  = &pin_7;
+    op8  = &pin_8;
+    op9  = &pin_9;
+    op10 = &pin_10;
+    op11 = &pin_11;
+   };
+
+   output_pins {
+    compatible = "gpio-leds";
+
+    pin_1: op_1 {
+        gpios = <&gpiod 5 GPIO_ACTIVE_LOW>;
+    };
+    pin_2: op_2 {
+        gpios = <&gpioe 4 GPIO_ACTIVE_LOW>;
+    };
+    pin_3: op_3 {
+        gpios = <&gpiof 6 GPIO_ACTIVE_LOW>;
+    };
+    pin_4: op_4 {
+        gpios = <&gpioc 10 GPIO_ACTIVE_LOW>;
+    };
+    pin_5: op_5 {
+        gpios = <&gpiof 6 GPIO_ACTIVE_LOW>;
+    };
+    pin_6: op_6 {
+        gpios = <&gpioc 0 GPIO_ACTIVE_LOW>;
+    };
+    pin_7: op_7 {
+        gpios = <&gpioc 4 GPIO_ACTIVE_LOW>;
+    };
+    pin_8: op_8 {
+        gpios = <&gpiod 12 GPIO_ACTIVE_LOW>;
+    };
+    pin_9: op_9 {
+        gpios = <&gpioe 11 GPIO_ACTIVE_LOW>;
+    };
+    pin_10: op_10 {
+        gpios = <&gpiog 2 GPIO_ACTIVE_LOW>;
+    };
+    pin_11: op_11 {
+        gpios = <&gpioe 15 GPIO_ACTIVE_LOW>;
+    };
+   };
+};
+   
+
+
