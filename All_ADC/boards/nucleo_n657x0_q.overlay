@@ -1,0 +1,69 @@
+/ {
+    zephyr,user {
+        io-channels = <&adc1 5>, 
+                      <&adc1 10>, 
+                      <&adc1 11>, 
+                      <&adc1 13>, 
+                      <&adc1 16>, 
+                      <&adc1 7>; 
+    };
+};
+
+&adc1 {
+    clocks = <&rcc STM32_CLOCK(AHB1, 5)>, <&rcc STM32_SRC_CKPER ADC12_SEL(1)>;
+    clock-names = "adcx", "adc_ker";
+    pinctrl-0 = <&adc1_inp5_pa8 &adc1_inp10_pa9 &adc1_inp11_pa10 &adc1_inp13_pa12 &adc1_inp16_pf3 &adc1_inp7_pg15>;
+    pinctrl-names = "default";
+    vref-mv = <1800>;
+    #address-cells = <1>;
+    #size-cells = <0>;
+    status = "okay";
+
+    channel@5 {
+        reg = <5>;
+        zephyr,gain             = "ADC_GAIN_1";
+        zephyr,reference        = "ADC_REF_INTERNAL";
+        zephyr,acquisition-time = <ADC_ACQ_TIME_DEFAULT>;
+        zephyr,resolution       = <12>;
+    };
+
+    channel@a {
+        reg = <10>;
+        zephyr,gain             = "ADC_GAIN_1";
+        zephyr,reference        = "ADC_REF_INTERNAL";
+        zephyr,acquisition-time = <ADC_ACQ_TIME_DEFAULT>;
+        zephyr,resolution       = <12>;
+    };
+
+    channel@b {
+        reg = <11>;
+        zephyr,gain             = "ADC_GAIN_1";
+        zephyr,reference        = "ADC_REF_INTERNAL";
+        zephyr,acquisition-time = <ADC_ACQ_TIME_DEFAULT>;
+        zephyr,resolution       = <12>;
+    };
+
+    channel@d {
+        reg = <13>;
+        zephyr,gain             = "ADC_GAIN_1";
+        zephyr,reference        = "ADC_REF_INTERNAL";
+        zephyr,acquisition-time = <ADC_ACQ_TIME_DEFAULT>;
+        zephyr,resolution       = <12>;
+    };
+
+    channel@10 {
+        reg = <16>;
+        zephyr,gain             = "ADC_GAIN_1";
+        zephyr,reference        = "ADC_REF_INTERNAL";
+        zephyr,acquisition-time = <ADC_ACQ_TIME_DEFAULT>;
+        zephyr,resolution       = <12>;
+    };
+
+    channel@7 {
+        reg = <7>;
+        zephyr,gain             = "ADC_GAIN_1";
+        zephyr,reference        = "ADC_REF_INTERNAL";
+        zephyr,acquisition-time = <ADC_ACQ_TIME_DEFAULT>;
+        zephyr,resolution       = <12>;
+    };
+};
