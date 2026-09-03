@@ -1,0 +1,194 @@
+/*
+ * NUCLEO-N657X0-Q
+ * DAQ application devicetree overlay
+ *
+ * Hardware:
+ *   ADC1:
+ *     CH0 -> PA8  -> ADC1 INP5
+ *     CH1 -> PA9  -> ADC1 INP10
+ *     CH2 -> PA10 -> ADC1 INP11
+ *     CH3 -> PA12 -> ADC1 INP13
+ *     CH4 -> PF3  -> ADC1 INP16
+ *     CH5 -> PG15 -> ADC1 INP7
+ *
+ *   Bit-banged I2C:
+ *     SCL -> PH9
+ *     SDA -> PE12
+ */
+
+#include <zephyr/dt-bindings/gpio/gpio.h>
+#include <zephyr/dt-bindings/adc/adc.h>
+
+/ {
+	/*
+	 * User-defined DAQ interface.
+	 *
+	 * gpios[0] = SCL
+	 * gpios[1] = SDA
+	 *
+	 * io-channels[0..5] = six ADC channels
+	 */
+	zephyr,user {
+		gpios = <&gpioh 9  (GPIO_OPEN_DRAIN | GPIO_PULL_UP)>,
+			<&gpioe 12 (GPIO_OPEN_DRAIN | GPIO_PULL_UP)>;
+
+		io-channels = <&adc1 5>,
+			      <&adc1 10>,
+			      <&adc1 11>,
+			      <&adc1 13>,
+			      <&adc1 16>,
+			      <&adc1 7>;
+	};
+};
+
+
+/*
+ * ============================================================
+ * ADC1
+ * ============================================================
+ */
+
+&adc1 {
+	/*
+	 * STM32N657 ADC clock configuration.
+	 */
+	clocks = <&rcc STM32_CLOCK(AHB1, 5)>,
+		 <&rcc STM32_SRC_CKPER ADC12_SEL(1)>;
+
+	clock-names = "adcx", "adc_ker";
+
+	/*
+	 * Physical ADC pins.
+	 */
+	pinctrl-0 = <&adc1_inp5_pa8
+		     &adc1_inp10_pa9
+		     &adc1_inp11_pa10
+		     &adc1_inp13_pa12
+		     &adc1_inp16_pf3
+		     &adc1_inp7_pg15>;
+
+	pinctrl-names = "default";
+
+	/*
+	 * ADC reference voltage.
+	 */
+	vref-mv = <1800>;
+
+	#address-cells = <1>;
+	#size-cells = <0>;
+
+	status = "okay";
+
+
+	/*
+	 * ADC Channel 0
+	 * PA8 -> ADC1 INP5
+	 */
+	channel@5 {
+		reg = <5>;
+
+		zephyr,gain = "ADC_GAIN_1";
+		zephyr,reference = "ADC_REF_INTERNAL";
+		zephyr,acquisition-time = <ADC_ACQ_TIME_DEFAULT>;
+		zephyr,resolution = <12>;
+	};
+
+
+	/*
+	 * ADC Channel 1
+	 * PA9 -> ADC1 INP10
+	 */
+	channel@a {
+		reg = <10>;
+
+		zephyr,gain = "ADC_GAIN_1";
+		zephyr,reference = "ADC_REF_INTERNAL";
+		zephyr,acquisition-time = <ADC_ACQ_TIME_DEFAULT>;
+		zephyr,resolution = <12>;
+	};
+
+
+	/*
+	 * ADC Channel 2
+	 * PA10 -> ADC1 INP11
+	 */
+	channel@b {
+		reg = <11>;
+
+		zephyr,gain = "ADC_GAIN_1";
+		zephyr,reference = "ADC_REF_INTERNAL";
+		zephyr,acquisition-time = <ADC_ACQ_TIME_DEFAULT>;
+		zephyr,resolution = <12>;
+	};
+
+
+	/*
+	 * ADC Channel 3
+	 * PA12 -> ADC1 INP13
+	 */
+	channel@d {
+		reg = <13>;
+
+		zephyr,gain = "ADC_GAIN_1";
+		zephyr,reference = "ADC_REF_INTERNAL";
+		zephyr,acquisition-time = <ADC_ACQ_TIME_DEFAULT>;
+		zephyr,resolution = <12>;
+	};
+
+
+	/*
+	 * ADC Channel 4
+	 * PF3 -> ADC1 INP16
+	 */
+	channel@10 {
+		reg = <16>;
+
+		zephyr,gain = "ADC_GAIN_1";
+		zephyr,reference = "ADC_REF_INTERNAL";
+		zephyr,acquisition-time = <ADC_ACQ_TIME_DEFAULT>;
+		zephyr,resolution = <12>;
+	};
+
+
+	/*
+	 * ADC Channel 5
+	 * PG15 -> ADC1 INP7
+	 */
+	channel@7 {
+		reg = <7>;
+
+		zephyr,gain = "ADC_GAIN_1";
+		zephyr,reference = "ADC_REF_INTERNAL";
+		zephyr,acquisition-time = <ADC_ACQ_TIME_DEFAULT>;
+		zephyr,resolution = <12>;
+	};
+};
+
+
+/*
+ * ============================================================
+ * GPIO PORTS
+ * ============================================================
+ *
+ * Explicitly enable the GPIO controllers used by the DAQ.
+ */
+
+&gpioa {
+	status = "okay";
+};
+
+&gpioe {
+	status = "okay";
+};
+
+&gpiof {
+	status = "okay";
+};
+
+&gpioh {
+	status = "okay";
+};
+
+&gpiog {
+	status = "okay";
+};

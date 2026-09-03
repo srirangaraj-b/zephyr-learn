@@ -1,0 +1,112 @@
+/*
+ * NUCLEO-G070RB
+ * DAQ application devicetree overlay
+ *
+ * Hardware:
+ *   ADC1:
+ *     idx0 -> PA0  -> ADC1 IN0
+ *     idx1 -> PA1  -> ADC1 IN1
+ *     idx2 -> PA4  -> ADC1 IN4
+ *     idx3 -> PB1  -> ADC1 IN9
+ *     idx4 -> PB11 -> ADC1 IN15
+ *     idx5 -> PB12 -> ADC1 IN16
+ *
+ *   Bit-banged I2C:
+ *     idx0 = SCL -> PB8
+ *     idx1 = SDA -> PC9
+ *
+ *   USART1 (device-to-device link):
+ *     TX -> PC4, RX -> PC5
+ *     Already enabled by default in the board's base .dts at 115200 8N1 -
+ *     no overlay entry needed for it. See src/zephyr_uart.c / main.c for
+ *     the code-side rename from USART3 -> USART1.
+ */
+
+#include <zephyr/dt-bindings/gpio/gpio.h>
+#include <zephyr/dt-bindings/adc/adc.h>
+
+&adc1 {
+	pinctrl-0 = <&adc1_in0_pa0
+		     &adc1_in1_pa1
+		     &adc1_in4_pa4
+		     &adc1_in9_pb1
+		     &adc1_in15_pb11
+		     &adc1_in16_pb12>;
+	pinctrl-names = "default";
+	st,adc-clock-source = "SYNC";
+	st,adc-prescaler = <4>;
+	#address-cells = <1>;
+	#size-cells = <0>;
+	status = "okay";
+
+	channel@0 {
+		reg = <0>;
+		zephyr,gain = "ADC_GAIN_1";
+		zephyr,reference = "ADC_REF_INTERNAL";
+		zephyr,acquisition-time = <ADC_ACQ_TIME_DEFAULT>;
+		zephyr,resolution = <12>;
+	};
+
+	channel@1 {
+		reg = <1>;
+		zephyr,gain = "ADC_GAIN_1";
+		zephyr,reference = "ADC_REF_INTERNAL";
+		zephyr,acquisition-time = <ADC_ACQ_TIME_DEFAULT>;
+		zephyr,resolution = <12>;
+	};
+
+	channel@4 {
+		reg = <4>;
+		zephyr,gain = "ADC_GAIN_1";
+		zephyr,reference = "ADC_REF_INTERNAL";
+		zephyr,acquisition-time = <ADC_ACQ_TIME_DEFAULT>;
+		zephyr,resolution = <12>;
+	};
+
+	channel@9 {
+		reg = <9>;
+		zephyr,gain = "ADC_GAIN_1";
+		zephyr,reference = "ADC_REF_INTERNAL";
+		zephyr,acquisition-time = <ADC_ACQ_TIME_DEFAULT>;
+		zephyr,resolution = <12>;
+	};
+
+	channel@f {
+		reg = <15>;
+		zephyr,gain = "ADC_GAIN_1";
+		zephyr,reference = "ADC_REF_INTERNAL";
+		zephyr,acquisition-time = <ADC_ACQ_TIME_DEFAULT>;
+		zephyr,resolution = <12>;
+	};
+
+	channel@10 {
+		reg = <16>;
+		zephyr,gain = "ADC_GAIN_1";
+		zephyr,reference = "ADC_REF_INTERNAL";
+		zephyr,acquisition-time = <ADC_ACQ_TIME_DEFAULT>;
+		zephyr,resolution = <12>;
+	};
+};
+
+/ {
+	zephyr,user {
+		/* ADC channels: idx 0-5 */
+		io-channels = <&adc1 0>, <&adc1 1>, <&adc1 4>,
+			      <&adc1 9>, <&adc1 15>, <&adc1 16>;
+
+		/* Bit-banged I2C pins: idx 0 = SCL, idx 1 = SDA */
+		gpios = <&gpiob 8 (GPIO_OPEN_DRAIN | GPIO_PULL_UP)>,
+			<&gpioc 9 (GPIO_OPEN_DRAIN | GPIO_PULL_UP)>;
+	};
+};
+
+/*
+ * NOTE: gpioa/gpiob/gpioc need no explicit "status = okay" here - unlike
+ * the N657 SoC, the STM32G0 GPIO controller nodes default to enabled at
+ * the SoC .dtsi level, so the N657 overlay's &gpioX { status = "okay"; }
+ * block has been dropped entirely rather than ported.
+ *
+ * NOTE: &usart1 also needs no entry here - nucleo_g070rb.dts already
+ * configures it (pinctrl-0 = <&usart1_tx_pc4 &usart1_rx_pc5>,
+ * current-speed = <115200>, status = "okay").
+ */

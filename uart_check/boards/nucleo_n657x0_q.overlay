@@ -1,0 +1,10 @@
+ * USART3 is already pin-mapped by the board (PD8=TX, PD9=RX)
+ * but is disabled by default. USART1 stays reserved for the
+ * Zephyr console, so we bring up USART3 for our own comms.
+ */
+&usart3 {
+	status = "okay";
+	current-speed = <115200>;
+	pinctrl-0 = <&usart3_tx_pd8 &usart3_rx_pd9>;
+	pinctrl-names = "default";
+};
